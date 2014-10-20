@@ -1,0 +1,32 @@
+// The ui-variables file is provided by base themes provided by Atom.
+//
+// See https://github.com/atom/atom-dark-ui/blob/master/stylesheets/ui-variables.less
+// for a full listing of what's available.
+@import "ui-variables";
+
+@font-face {
+ font-family: "YUNO";
+ src:url("atom://yuno-commit/resources/yuno.woff") format("woff");
+ font-weight: normal;
+ font-style: normal;
+}
+
+.yuno-commit {
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  bottom: 25px;
+  right: 0;
+  z-index: 10000;
+  color: @text-color-warning;
+  font-weight: bold;
+
+  &:after {
+    content: "\e600";
+    font-family: "YUNO";
+    font-size: 150px;
+    font-weight: normal;
+    display: inline-block;
+    -webkit-transform: scaleX(-1);
+  }
+}
