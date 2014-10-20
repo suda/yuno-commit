@@ -2,12 +2,14 @@
   "name": "yuno-commit",
   "main": "./lib/yuno-commit",
   "version": "0.0.0",
-  "description": "A short description of your package",
-  "repository": "https://github.com/atom/yuno-commit",
+  "description": "Y U NO commit after so many writes???",
+  "repository": "https://github.com/suda/yuno-commit",
   "license": "MIT",
   "engines": {
     "atom": ">0.50.0"
   },
   "dependencies": {
+    "emissary": "1.x",
+    "fs-plus": "^2.0.4"
   }
 }

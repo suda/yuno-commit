@@ -11,3 +11,8 @@ module.exports =
 
   serialize: ->
     yunoCommitViewState: @yunoCommitView.serialize()
+
+  config:
+    numberOfChangesToShowWarning:
+      type: 'integer'
+      default: 50
