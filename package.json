@@ -1,7 +1,7 @@
 {
   "name": "yuno-commit",
   "main": "./lib/yuno-commit",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Y U NO commit after so many writes???",
   "repository": "https://github.com/suda/yuno-commit",
   "license": "MIT",
