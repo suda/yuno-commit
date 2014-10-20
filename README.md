@@ -1,5 +1,5 @@
-# yuno-commit package
+# Y U NO commit?????
 
-A short description of your package.
+Package showing warning (Y U NO meme) when there are more uncommitted changes than set trigger. Inspired by [vim plugin](https://github.com/esneider/YUNOcommit.vim).
 
-![A screenshot of your spankin' package](https://f.cloud.github.com/assets/69169/2290250/c35d867a-a017-11e3-86be-cd7c5bf3ff9b.gif)
+![Y U NO commit?????](https://www.dropbox.com/s/rbc948xwri8fg22/Screenshot%202014-10-20%2018.49.48.png?dl=1)
