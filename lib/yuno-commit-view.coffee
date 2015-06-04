@@ -14,34 +14,42 @@ class YunoCommitView extends View
     path ?= require 'path'
 
     repos = atom.project.getRepositories()
-    if repos.length > 0
+    if repos.length > 0 and repos[0]
       @repo = repos[0]
 
       @subscriber = new Subscriber()
       @subscriber.subscribeToCommand atom.workspaceView, 'core:save', =>
-        changes = 0
+        setTimeout =>
+          changes = 0
 
-        for file in @walkPath(atom.project.getPaths()[0])
-          stats = @repo.getDiffStats file
-          changes += stats.added
-          changes += stats.deleted
+          for file in @walkPath(atom.project.getPaths()[0])
+            stats = @repo.getDiffStats file
+            changes += stats.added
+            changes += stats.deleted
 
-        if atom.config.get('yuno-commit.numberOfChangesToShowWarning') < changes
-          @show()
-        else
-          @hide()
+          threshold = atom.config.get('yuno-commit.numberOfChangesToShowWarning')
+          if threshold < changes
+            @show(changes, threshold)
+          else
+            @hide()
+        , 138
 
   serialize: ->
 
   destroy: ->
     @detach()
 
-  show: ->
-    atom.workspaceView.append(this)
+  show: (changes, threshold) ->
+    atom.workspaceView.append(this) unless @_showing
+    @_showing = true
+    scale = Math.exp((changes - threshold) / (threshold * 2))
+    this.css('transform', 'scale(' + scale.toFixed(4) + ')')
+    this.toggleClass('is-aaaaaaaaa', changes > 2 * threshold)
 
   hide: ->
     if @hasParent()
       @detach()
+    @_showing = false
 
   walkPath: (directory) ->
     results = []
