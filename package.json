@@ -1,15 +1,17 @@
 {
   "name": "yuno-commit",
   "main": "./lib/yuno-commit",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Y U NO commit after so many writes???",
-  "repository": "https://github.com/suda/yuno-commit",
+  "repository": "https://github.com/dtinth/yuno-commit",
   "license": "MIT",
   "engines": {
-    "atom": ">0.50.0"
+    "atom": ">=1.0.0"
   },
   "dependencies": {
     "emissary": "1.x",
-    "fs-plus": "^2.0.4"
+    "fs-plus": "^2.0.4",
+    "rx": "^2.5.3",
+    "space-pen": "^5.1.1"
   }
 }
