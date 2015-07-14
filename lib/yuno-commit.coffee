@@ -48,6 +48,7 @@ module.exports =
 
   deactivate: ->
     @view.detach()
+    @subscription.dispose()
 
   config:
     numberOfChangesToShowWarning:

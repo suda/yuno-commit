@@ -1,12 +1,12 @@
 {
-  "name": "yuno-commit",
+  "name": "yuno-commit-plus",
   "main": "./lib/yuno-commit",
   "version": "0.0.3",
-  "description": "Y U NO commit after so many writes???",
+  "description": "Y U NO commit after so many writes??? (Atom 1.0-compatible fork of ‘yuno-commit’ with extra stuffs)",
   "repository": "https://github.com/dtinth/yuno-commit",
   "license": "MIT",
   "engines": {
-    "atom": ">=1.0.0"
+    "atom": "^1.0.0"
   },
   "dependencies": {
     "emissary": "1.x",
