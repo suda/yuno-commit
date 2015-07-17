@@ -4,9 +4,17 @@ YunoCommitView = require './yuno-commit-view'
 
 intents = ->
 
-  save川: Observable.create (observer) ->
+  save川 = Observable.create (observer) ->
     atom.commands.add 'atom-workspace', 'core:save', (event) ->
       observer.onNext(event)
+
+  repositoryStatusUpdates川 = Observable.from(atom.project.getRepositories())
+    .flatMap (repository) ->
+      Observable.create (observer) ->
+        repository.onDidChangeStatuses (event) ->
+          observer.onNext(event)
+
+  refresh川: Observable.merge(save川, repositoryStatusUpdates川).delay(138)
 
 
 model = (intents) ->
@@ -29,10 +37,15 @@ model = (intents) ->
         .reduce ((a, b) -> a + b), 0
     .catch (err) -> Observable.just(err)
 
-  refresh川 = intents.save川.map(repositoryPath).startWith(repositoryPath())
+  refresh川 = intents.refresh川.map(repositoryPath).startWith(repositoryPath())
 
-  refresh川.map(diffStat川).merge(1)
+  changes川 = refresh川.map(diffStat川).merge(1)
 
+  threshold川 = Observable.create (observer) ->
+    atom.config.observe 'yuno-commit-plus.numberOfChangesToShowWarning', (threshold) ->
+      observer.onNext(threshold)
+
+  { changes川, threshold川 }
 
 module.exports =
   yunoCommitView: null
@@ -40,10 +53,15 @@ module.exports =
   activate: ->
     @view = new YunoCommitView()
     @model = model(intents())
-    @subscription = @model.subscribe (changes) => @update(changes)
 
-  update: (changes) ->
-    threshold = atom.config.get('yuno-commit-plus.numberOfChangesToShowWarning')
+    state川 = Observable.combineLatest(
+      @model.changes川, @model.threshold川,
+      (changes, threshold) -> { changes, threshold })
+
+    @subscription = state川.subscribe ({ changes, threshold }) =>
+      @update(changes, threshold)
+
+  update: (changes, threshold) ->
     @view.set(changes, threshold)
 
   deactivate: ->
