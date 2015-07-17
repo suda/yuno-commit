@@ -43,7 +43,7 @@ module.exports =
     @subscription = @model.subscribe (changes) => @update(changes)
 
   update: (changes) ->
-    threshold = atom.config.get('yuno-commit.numberOfChangesToShowWarning')
+    threshold = atom.config.get('yuno-commit-plus.numberOfChangesToShowWarning')
     @view.set(changes, threshold)
 
   deactivate: ->
