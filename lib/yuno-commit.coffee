@@ -10,13 +10,14 @@ intents = ->
 
   repositories = atom.project.getRepositories()
 
-  return refresh川: save川.delay(138) unless repositories[0]
-
   repositoryStatusUpdates川 = Observable.from(repositories)
     .flatMap (repository) ->
-      Observable.create (observer) ->
-        repository.onDidChangeStatuses (event) ->
-          observer.onNext(event)
+      if repository
+        Observable.create (observer) ->
+          repository.onDidChangeStatuses (event) ->
+            observer.onNext(event)
+      else
+        Observable.empty()
 
   refresh川: Observable.merge(save川, repositoryStatusUpdates川).delay(138)
 
