@@ -8,7 +8,11 @@ intents = ->
     atom.commands.add 'atom-workspace', 'core:save', (event) ->
       observer.onNext(event)
 
-  repositoryStatusUpdates川 = Observable.from(atom.project.getRepositories())
+  repositories = atom.project.getRepositories()
+
+  return refresh川: save川.delay(138) unless repositories[0]
+
+  repositoryStatusUpdates川 = Observable.from(repositories)
     .flatMap (repository) ->
       Observable.create (observer) ->
         repository.onDidChangeStatuses (event) ->
