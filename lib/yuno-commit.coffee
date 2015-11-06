@@ -4,13 +4,13 @@ YunoCommitView = require './yuno-commit-view'
 
 intents = ->
 
-  save川 = Observable.create (observer) ->
+  save = Observable.create (observer) ->
     atom.commands.add 'atom-workspace', 'core:save', (event) ->
       observer.onNext(event)
 
   repositories = atom.project.getRepositories()
 
-  repositoryStatusUpdates川 = Observable.from(repositories)
+  repositoryStatusUpdates = Observable.from(repositories)
     .flatMap (repository) ->
       if repository
         Observable.create (observer) ->
@@ -19,7 +19,7 @@ intents = ->
       else
         Observable.empty()
 
-  refresh川: Observable.merge(save川, repositoryStatusUpdates川).delay(138)
+  refresh: Observable.merge(save, repositoryStatusUpdates).delay(138)
 
 
 model = (intents) ->
@@ -27,12 +27,12 @@ model = (intents) ->
   repositoryPath = ->
     atom.project.getRepositories()[0]?.getWorkingDirectory()
 
-  diffNumStat川 = (repositoryPath) ->
+  diffNumStat = (repositoryPath) ->
     Observable.fromNodeCallback(execFile)('git', ['diff', '--numstat'], cwd: repositoryPath)
     .map ([stdout, stderr]) -> stdout
 
-  diffStat川 = (repositoryPath) ->
-    diffNumStat川(repositoryPath)
+  diffStat = (repositoryPath) ->
+    diffNumStat(repositoryPath)
     .map (stdout) ->
       stdout
         .split /\r\n|\r|\n/
@@ -42,15 +42,15 @@ model = (intents) ->
         .reduce ((a, b) -> a + b), 0
     .catch (err) -> Observable.just(err)
 
-  refresh川 = intents.refresh川.map(repositoryPath).startWith(repositoryPath())
+  refresh = intents.refresh.map(repositoryPath).startWith(repositoryPath())
 
-  changes川 = refresh川.map(diffStat川).merge(1)
+  changes = refresh.map(diffStat).merge(1)
 
-  threshold川 = Observable.create (observer) ->
+  threshold = Observable.create (observer) ->
     atom.config.observe 'yuno-commit-plus.numberOfChangesToShowWarning', (threshold) ->
       observer.onNext(threshold)
 
-  { changes川, threshold川 }
+  { changes, threshold }
 
 module.exports =
   yunoCommitView: null
@@ -59,11 +59,11 @@ module.exports =
     @view = new YunoCommitView()
     @model = model(intents())
 
-    state川 = Observable.combineLatest(
-      @model.changes川, @model.threshold川,
+    state = Observable.combineLatest(
+      @model.changes, @model.threshold,
       (changes, threshold) -> { changes, threshold })
 
-    @subscription = state川.subscribe ({ changes, threshold }) =>
+    @subscription = state.subscribe ({ changes, threshold }) =>
       @update(changes, threshold)
 
   update: (changes, threshold) ->

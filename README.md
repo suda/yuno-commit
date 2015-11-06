@@ -13,9 +13,11 @@ Package showing warning (Y U NO meme) when there are more uncommitted changes th
 ![Screenshot](http://i.imgur.com/Qva3WNI.png)
 
 
-## Fork information
+## Contribution
 
-This is @dtinth’s fork of the original [yuno-commit](https://atom.io/packages/yuno-commit) package, with the following changes:
+Feel free to fork, PR and file issues!
+
+Big thanks to @dtinth whose fork has been merged into this package! Here are his changes:
 
 - Made compatible with Atom 1.0.
 - The overlay message will get bigger and bigger as you make more changes.
