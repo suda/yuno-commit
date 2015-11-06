@@ -6,7 +6,7 @@
 
 @font-face {
  font-family: "YUNO";
- src:url("atom://yuno-commit/resources/yuno.woff") format("woff");
+ src:url("atom://yuno-commit-plus/resources/yuno.woff") format("woff");
  font-weight: normal;
  font-style: normal;
 }
@@ -22,13 +22,18 @@
   color: @text-color-warning;
   font-weight: bold;
   pointer-events: none;
-
+  text-align: center;
+  transition: 0.138s transform;
+  transform-origin: bottom;
   &:after {
     content: "\e600";
     font-family: "YUNO";
     font-size: 150px;
     font-weight: normal;
     display: inline-block;
-    -webkit-transform: scaleX(-1);
+    transform: translateX(20px) scaleX(-1);
+  }
+  &.is-aaaaaaaaa {
+    text-shadow: 0 0 2em @text-color-warning;
   }
 }
